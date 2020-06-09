@@ -99,4 +99,27 @@ class UserAbout(Resource):
 
 
 
+class UserPassword(Resource):
+    parser = reqparse.RequestParser()
+    parser.add_argument(
+        "password", type=str, required=True, help="This field cannot be left blank!"
+    )
 
+    @classmethod
+    @jwt_required
+    def put(cls):
+        data = cls.parser.parse_args()
+        id = get_jwt_identity()
+        user = UserModel.find_by_id(id)
+
+        password = data["password"]
+        salt = urandom(32)
+
+        data["password"] = hashPassword(password, salt)
+        data["salt"] = base64.b64encode(salt)
+
+        user.password = data['password']
+        user.salt = data['salt']
+
+        user.save_to_db()
+        return {'message': 'zmieniono hasło'}, 200

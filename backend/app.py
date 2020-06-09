@@ -79,7 +79,7 @@ def create_tables():
     
 
 
-
+api.add_resource(UserPassword, '/password')
 
 api.add_resource(UserRegister, '/register')
 api.add_resource(UserLogin,'/auth')
