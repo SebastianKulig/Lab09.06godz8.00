@@ -101,9 +101,7 @@ class UserAbout(Resource):
 
 class UserPassword(Resource):
     parser = reqparse.RequestParser()
-    parser.add_argument(
-        "password", type=str, required=True, help="This field cannot be left blank!"
-    )
+    parser.add_argument("password", type=str, required=True, help="This field cannot be left blank!")
 
     @classmethod
     @jwt_required
